@@ -1,42 +1,40 @@
 const ZoomdataSDK = require('zoomdata-client/distribute/sdk/zoomdata-client.node');
 
-const application = {
-    secure: true,
-    host: '2-5-latest.zoomdata.com',
-    port: 443,
-    path: '/zoomdata'
-};
+async function run() {
+    const application = {
+        secure: true,
+        host: '2-5-latest.zoomdata.com',
+        port: 443,
+        path: '/zoomdata'
+    };
+    
+    const credentials = {
+        key: 'oUvpLx0eCi'
+    };
 
-const credentials = {
-    key: 'oUvpLx0eCi'
-};
+    const client = await ZoomdataSDK.createClient({ application, credentials });
 
-ZoomdataSDK.createClient({ application, credentials })
-    .then(async client => {
-        console.log('Client ready');
+    console.log('Client ready');
+    
+    const queryConfig = {
+        filters: [],
+        groups: [{
+            name: 'position',
+            limit: 10,
+            sort: { dir: 'asc', name: 'position' }
+        }],
+        metrics: [
+            { name: 'satisfaction', func: 'sum' }
+        ]
+    };
 
-        const queryConfig = {
-            filters: [],
-            groups: [{
-                name: 'position',
-                limit: 10,
-                sort: { dir: 'asc', name: 'position' }
-            }],
-            metrics: [
-                { name: 'satisfaction', func: 'sum' }
-            ]
-        };
-
-        try {
-            const data = await fetchData(client, 'My FLAT FILE Source', queryConfig);
-            console.log('Received data:', data);
-        } catch (e) {
-            throw e;
-        } finally {
-            client.close();
-        }
-    })
-    .catch(console.error);
+    try {
+        const data = await fetchData(client, 'My FLAT FILE Source', queryConfig);
+        console.log('Received data:', data);
+    } finally {
+        client.close();
+    }
+}
 
 async function fetchData(client, name, queryConfig) {
     const query = await client.createQuery({ name }, queryConfig);
@@ -48,3 +46,5 @@ async function fetchData(client, name, queryConfig) {
         client.runQuery(query, resolve, reject);
     });
 }
+
+run().catch(console.error);
