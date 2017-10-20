@@ -3,13 +3,13 @@ const ZoomdataSDK = require('zoomdata-client/distribute/sdk/zoomdata-client.node
 async function run() {
     const application = {
         secure: true,
-        host: '2-5-latest.zoomdata.com',
+        host: 'developer.zoomdata.com',
         port: 443,
-        path: '/zoomdata'
+        path: '/zoomdata-2.6'
     };
     
     const credentials = {
-        key: 'oUvpLx0eCi'
+        key: 'KVKWiD8kUl'
     };
 
     const client = await ZoomdataSDK.createClient({ application, credentials });
@@ -29,7 +29,7 @@ async function run() {
     };
 
     try {
-        const data = await fetchData(client, 'My FLAT FILE Source', queryConfig);
+        const data = await fetchData(client, 'Impala', queryConfig);
         console.log('Received data:', data);
     } finally {
         client.close();
