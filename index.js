@@ -7,7 +7,7 @@ async function run() {
         port: 443,
         path: '/zoomdata-2.6'
     };
-    
+
     const credentials = {
         key: 'KVKWiD8kUl'
     };
@@ -15,13 +15,13 @@ async function run() {
     const client = await ZoomdataSDK.createClient({ application, credentials });
 
     console.log('Client ready');
-    
+
     const queryConfig = {
         filters: [],
         groups: [{
-            name: 'position',
+            name: 'gender',
             limit: 10,
-            sort: { dir: 'asc', name: 'position' }
+            sort: { dir: 'asc', name: 'gender' }
         }],
         metrics: [
             { name: 'satisfaction', func: 'sum' }
@@ -29,7 +29,7 @@ async function run() {
     };
 
     try {
-        const data = await fetchData(client, 'Impala', queryConfig);
+        const data = await fetchData(client, 'My IMPALA Source', queryConfig);
         console.log('Received data:', data);
     } finally {
         client.close();
