@@ -18,6 +18,6 @@
   },
   "homepage": "https://github.com/artembykov/zoomdata-sdk-node#readme",
   "dependencies": {
-    "zoomdata-client": "^2.3.15"
+    "zoomdata-client": "2.6.1-1"
   }
 }
